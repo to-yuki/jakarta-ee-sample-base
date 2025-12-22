@@ -146,8 +146,8 @@
                 <div class="user-display"><%= user.getFullName() %> (<%= user.getUsername() %>)</div>
             </div>
             <div>
-                <a href="${pageContext.request.contextPath}/home" class="btn btn-success">ホーム画面へ</a>
-                <form action="${pageContext.request.contextPath}/logout" method="post" style="display: inline;">
+                <a href="${pageContext.request.contextPath}/app/home" class="btn btn-success">ホーム画面へ</a>
+                <form action="${pageContext.request.contextPath}/app/logout" method="post" style="display: inline;">
                     <button type="submit" class="btn btn-danger">ログアウト</button>
                 </form>
             </div>
@@ -156,7 +156,7 @@
                 ⚠️ ログインしていません
             </div>
             <div>
-                <a href="${pageContext.request.contextPath}/login" class="btn btn-primary">ログイン</a>
+                <a href="${pageContext.request.contextPath}/app/login" class="btn btn-primary">ログイン</a>
             </div>
         <% } %>
         

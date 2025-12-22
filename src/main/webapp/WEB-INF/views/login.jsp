@@ -133,7 +133,7 @@
             </div>
         <% } %>
         
-        <form action="${pageContext.request.contextPath}/login" method="post">
+        <form action="${pageContext.request.contextPath}/app/login" method="post">
             <div class="form-group">
                 <label for="username">ユーザー名</label>
                 <input type="text" 

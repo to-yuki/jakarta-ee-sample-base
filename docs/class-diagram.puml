@@ -1,0 +1,117 @@
+@startuml クラス図
+
+' スタイル設定
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam backgroundColor #FFFFFF
+
+' パッケージ定義
+package "com.example" {
+    class HelloServlet {
+        + doGet(request, response): void
+        + doPost(request, response): void
+    }
+}
+
+package "com.example.controller" {
+    class ControlServlet {
+        - LOGGER: Logger
+        - userService: UserService
+        + init(): void
+        + doGet(request, response): void
+        + doPost(request, response): void
+        - showIndex(request, response): void
+        - showLoginPage(request, response): void
+        - processLogin(request, response): void
+        - processLogout(request, response): void
+        - showHomePage(request, response): void
+    }
+}
+
+package "com.example.model.service" {
+    class UserService {
+        - LOGGER: Logger
+        + initializeDatabase(): void
+        + authenticateUser(username, password): User
+        + getUserById(userId): User
+    }
+}
+
+package "com.example.model.dao" {
+    class DatabaseManager {
+        - LOGGER: Logger
+        - DB_URL: String {static}
+        - DB_USER: String {static}
+        - DB_PASSWORD: String {static}
+        - initialized: boolean {static}
+        + getConnection(): Connection {static}
+        + initialize(): void {static}
+        + getDatabaseUrl(): String {static}
+        + isInitialized(): boolean {static}
+    }
+    
+    class UserDao {
+        - LOGGER: Logger
+        + initializeTable(): void {static}
+        - insertSampleData(conn): void {static}
+        - getConnection(): Connection {static}
+        + authenticate(username, password): User {static}
+    }
+}
+
+package "com.example.model" {
+    class User {
+        - id: int
+        - username: String
+        - email: String
+        - fullName: String
+        + User(id, username, email, fullName)
+        + getId(): int
+        + getUsername(): String
+        + getEmail(): String
+        + getFullName(): String
+        + setId(id): void
+        + setUsername(username): void
+        + setEmail(email): void
+        + setFullName(fullName): void
+    }
+}
+
+' 継承関係
+ControlServlet --|> HttpServlet
+HelloServlet --|> HttpServlet
+
+' 依存関係
+ControlServlet ..> UserService : uses
+ControlServlet ..> User : uses
+UserService ..> UserDao : uses
+UserService ..> DatabaseManager : uses
+UserDao ..> DatabaseManager : uses
+UserDao ..> User : creates
+
+' コンポジション
+ControlServlet *-- UserService
+
+' 注釈
+note right of ControlServlet
+  フロントコントローラーパターン
+  全てのメインリクエストを処理
+  @WebServlet({"", "/app/*"})
+end note
+
+note right of HelloServlet
+  サンプルページ用の独立したServlet
+  @WebServlet("/hello")
+end note
+
+note right of DatabaseManager
+  データベース接続の一元管理
+  SQLite/PostgreSQL/MySQL対応
+end note
+
+note right of UserService
+  ビジネスロジック層
+  入力検証とDAO呼び出し
+end note
+
+@enduml
