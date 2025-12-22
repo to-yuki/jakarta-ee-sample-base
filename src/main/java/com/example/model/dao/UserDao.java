@@ -8,39 +8,19 @@ import java.util.logging.Logger;
 
 /**
  * ユーザーデータアクセスオブジェクト（DAO）クラス
- * データベースとの直接的なやり取りを担当します
+ * ユーザーテーブルに対するCRUD操作を提供します
  */
 public class UserDao {
     // ログ出力用のロガーインスタンス
     private static final Logger LOGGER = Logger.getLogger(UserDao.class.getName());
-    // データベース接続URL（SQLiteファイルのパス）
-    private static final String DB_URL = "jdbc:sqlite:webapp.db";
-    // データベース初期化済みフラグ
-    private static boolean initialized = false;
-    
-    // 静的イニシャライザーでJDBCドライバーをロード
-    static {
-        try {
-            // SQLiteのJDBCドライバークラスを明示的にロード
-            Class.forName("org.sqlite.JDBC");
-        } catch (ClassNotFoundException e) {
-            // ドライバーが見つからない場合はエラーログを出力
-            LOGGER.log(Level.SEVERE, "SQLite JDBCドライバーが見つかりません", e);
-        }
-    }
     
     /**
-     * データベースを初期化（テーブル作成とサンプルデータ投入）
-     * スレッドセーフにするためsynchronizedで同期化
+     * usersテーブルを初期化（テーブル作成とサンプルデータ投入）
+     * DatabaseManagerから呼び出されます
      */
-    public static synchronized void initialize() {
-        // 既に初期化済みの場合は何もしない
-        if (initialized) {
-            return;
-        }
-        
+    public static void initializeTable() {
         // try-with-resources文で自動的にコネクションをクローズ
-        try (Connection conn = getConnection()) {
+        try (Connection conn = DatabaseManager.getConnection()) {
             // usersテーブルのCREATE文（テキストブロックを使用）
             String createTableSQL = """
                 CREATE TABLE IF NOT EXISTS users (
@@ -56,6 +36,7 @@ public class UserDao {
             try (Statement stmt = conn.createStatement()) {
                 // テーブルを作成
                 stmt.execute(createTableSQL);
+                LOGGER.info("usersテーブルを作成しました");
                 
                 // サンプルデータの存在を確認
                 String checkSQL = "SELECT COUNT(*) FROM users";
@@ -69,13 +50,9 @@ public class UserDao {
                 }
             }
             
-            // 初期化完了フラグを立てる
-            initialized = true;
-            LOGGER.info("データベースを初期化しました");
-            
         } catch (SQLException e) {
             // SQL実行エラーをログに記録
-            LOGGER.log(Level.SEVERE, "データベース初期化エラー", e);
+            LOGGER.log(Level.SEVERE, "usersテーブル初期化エラー", e);
         }
     }
     
@@ -103,13 +80,14 @@ public class UserDao {
     
     /**
      * データベース接続を取得
+     * DatabaseManagerを使用して接続を取得します
      * 
      * @return データベースコネクション
      * @throws SQLException 接続エラー
      */
-    public static Connection getConnection() throws SQLException {
-        // DriverManagerを使用してデータベースに接続
-        return DriverManager.getConnection(DB_URL);
+    private static Connection getConnection() throws SQLException {
+        // DatabaseManagerから接続を取得
+        return DatabaseManager.getConnection();
     }
     
     /**

@@ -19,8 +19,8 @@ public class UserService {
      */
     public void initializeDatabase() {
         LOGGER.info("ユーザーサービス: データベース初期化を開始");
-        // DAO層のUserDaoを呼び出してデータベースを初期化
-        UserDao.initialize();
+        // DatabaseManagerを呼び出してデータベースを初期化
+        com.example.model.dao.DatabaseManager.initialize();
         LOGGER.info("ユーザーサービス: データベース初期化が完了");
     }
     
