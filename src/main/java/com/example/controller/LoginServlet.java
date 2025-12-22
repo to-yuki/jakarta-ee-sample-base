@@ -8,9 +8,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-// アプリケーションのモデルクラスをインポート
-import com.example.model.DatabaseManager;
+// アプリケーションのモデルクラスとサービスクラスをインポート
 import com.example.model.User;
+import com.example.model.service.UserService;
 
 // Java標準APIをインポート
 import java.io.IOException;
@@ -25,6 +25,9 @@ public class LoginServlet extends HttpServlet {
     // ログ出力用のロガーインスタンス（クラス名を使用して初期化）
     private static final Logger LOGGER = Logger.getLogger(LoginServlet.class.getName());
     
+    // ユーザー関連のビジネスロジックを処理するサービス層のインスタンス
+    private final UserService userService = new UserService();
+    
     /**
      * サーブレットの初期化メソッド
      * サーブレットが最初にロードされたときに1度だけ呼ばれます
@@ -33,8 +36,8 @@ public class LoginServlet extends HttpServlet {
     public void init() throws ServletException {
         // 親クラスの初期化処理を実行
         super.init();
-        // データベースの初期化（テーブル作成、サンプルデータ投入）
-        DatabaseManager.initialize();
+        // UserServiceを通じてデータベースを初期化（テーブル作成、サンプルデータ投入）
+        userService.initializeDatabase();
     }
     
     /**
@@ -92,8 +95,8 @@ public class LoginServlet extends HttpServlet {
             return; // 処理を終了
         }
         
-        // データベースでユーザー認証を実行
-        User user = DatabaseManager.authenticate(username, password);
+        // UserServiceを通じてユーザー認証を実行（ビジネスロジック層での処理）
+        User user = userService.authenticateUser(username, password);
         
         // 認証結果によって処理を分岐
         if (user != null) {
