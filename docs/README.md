@@ -40,14 +40,12 @@
   - ControlServlet - フロントコントローラー
 
 - **com.example.model.service** - サービス層
+  - User - ユーザーエンティティ
   - UserService - ビジネスロジック
 
 - **com.example.model.dao** - DAO層
   - DatabaseManager - DB接続管理
   - UserDao - ユーザーデータアクセス
-
-- **com.example.model** - エンティティ層
-  - User - ユーザーエンティティ
 
 ### 主な関係
 

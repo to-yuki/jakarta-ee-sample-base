@@ -59,21 +59,27 @@ package "com.example.model.dao" {
     }
 }
 
-package "com.example.model" {
+package "com.example.model.service" {
     class User {
+        - serialVersionUID: long {static}
         - id: int
         - username: String
+        - password: String
         - email: String
         - fullName: String
+        + User()
         + User(id, username, email, fullName)
         + getId(): int
         + getUsername(): String
+        + getPassword(): String
         + getEmail(): String
         + getFullName(): String
         + setId(id): void
         + setUsername(username): void
+        + setPassword(password): void
         + setEmail(email): void
         + setFullName(fullName): void
+        + toString(): String
     }
 }
 

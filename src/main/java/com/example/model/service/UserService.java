@@ -1,6 +1,5 @@
 package com.example.model.service;
 
-import com.example.model.User;
 import com.example.model.dao.UserDao;
 
 import java.util.logging.Logger;

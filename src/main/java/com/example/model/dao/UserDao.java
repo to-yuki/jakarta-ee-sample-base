@@ -1,10 +1,10 @@
 package com.example.model.dao;
 
-import com.example.model.User;
-
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.example.model.service.User;
 
 /**
  * ユーザーデータアクセスオブジェクト（DAO）クラス

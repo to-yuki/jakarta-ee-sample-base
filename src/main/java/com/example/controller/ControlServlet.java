@@ -8,8 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-// アプリケーションのモデルクラスとサービスクラスをインポート
-import com.example.model.User;
+import com.example.model.service.User;
 import com.example.model.service.UserService;
 
 // Java標準APIをインポート
