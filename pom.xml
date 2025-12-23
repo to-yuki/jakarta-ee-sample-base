@@ -47,6 +47,12 @@
       <version>4.13.2</version>
       <scope>test</scope>
     </dependency>
+    <!-- XStream 最新版に更新して sun.misc.Unsafe 警告を解決 -->
+    <dependency>
+      <groupId>com.thoughtworks.xstream</groupId>
+      <artifactId>xstream</artifactId>
+      <version>1.4.20</version>
+    </dependency>
   </dependencies>
 
   <build>
