@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.example.model.User" %>
+<%@ page import="com.example.model.service.User" %>
 <%
     // ログインチェック
     User user = (User) session.getAttribute("user");
