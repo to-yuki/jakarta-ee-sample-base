@@ -16,6 +16,7 @@ buildNumber.properties
 *.log
 
 # Package Files
+*.jar
 *.nar
 *.zip
 *.tar.gz
