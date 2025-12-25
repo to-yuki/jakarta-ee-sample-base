@@ -1,4 +1,7 @@
 # Maven
+target/classes
+target/maven-archiver
+target/maven-status/maven-compiler-plugin/compile/default-compile
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
