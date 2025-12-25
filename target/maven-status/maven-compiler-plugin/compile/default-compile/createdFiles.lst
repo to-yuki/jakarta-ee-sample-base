@@ -1,0 +1,6 @@
+com\example\model\dao\DatabaseManager.class
+com\example\model\service\UserService.class
+com\example\controller\ControlServlet.class
+com\example\HelloServlet.class
+com\example\model\service\User.class
+com\example\model\dao\UserDao.class
