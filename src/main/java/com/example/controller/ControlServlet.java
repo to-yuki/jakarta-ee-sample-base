@@ -1,19 +1,18 @@
 package com.example.controller;
 
 // Jakarta EEのサーブレットAPIをインポート
+import java.io.IOException;
+import java.util.logging.Logger;
+
+import com.example.model.service.User;
+import com.example.model.service.UserService;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
-import com.example.model.service.User;
-import com.example.model.service.UserService;
-
-// Java標準APIをインポート
-import java.io.IOException;
-import java.util.logging.Logger;
 
 /**
  * フロントコントローラーパターンを実装した統合サーブレット
@@ -63,19 +62,10 @@ public class ControlServlet extends HttpServlet {
         
         // パスに基づいて処理を振り分け
         switch (pathInfo) {
-            case "/login":
-                showLoginPage(request, response);
-                break;
-            case "/logout":
-                processLogout(request, response);
-                break;
-            case "/home":
-                showHomePage(request, response);
-                break;
-            default:
-                // 存在しないパスの場合は404エラー
-                response.sendError(HttpServletResponse.SC_NOT_FOUND);
-                break;
+            case "/login" -> showLoginPage(request, response);
+            case "/logout" -> processLogout(request, response);
+            case "/home" -> showHomePage(request, response);
+            default -> response.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
     }
     
@@ -101,23 +91,14 @@ public class ControlServlet extends HttpServlet {
         
         // パスに基づいて処理を振り分け
         switch (pathInfo) {
-            case "/login":
-                processLogin(request, response);
-                break;
-            case "/logout":
-                processLogout(request, response);
-                break;
-            default:
-                // POSTが許可されていないパスの場合は405エラー
-                response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-                break;
+            case "/login" -> processLogin(request, response);
+            case "/logout" -> processLogout(request, response);
+            default -> response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
         }
     }
     
-    // ========== 各機能の実装メソッド ==========
-    
     /**
-     * トップページ（index.jsp）を表示
+     * トップページを表示
      */
     private void showIndex(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
